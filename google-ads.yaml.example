@@ -1,0 +1,16 @@
+# Google Ads API Configuration
+# Copy this file to google-ads.yaml and fill in your actual values
+
+developer_token: "YOUR_DEVELOPER_TOKEN"
+client_id: "YOUR_CLIENT_ID"
+client_secret: "YOUR_CLIENT_SECRET"
+refresh_token: "YOUR_REFRESH_TOKEN"
+
+# Optional: Use environment variables instead
+# developer_token: ${GOOGLE_ADS_DEVELOPER_TOKEN}
+# client_id: ${GOOGLE_ADS_CLIENT_ID}
+# client_secret: ${GOOGLE_ADS_CLIENT_SECRET}
+# refresh_token: ${GOOGLE_ADS_REFRESH_TOKEN}
+
+# Optional: Login customer ID (only needed if accessing a manager account)
+# login_customer_id: "1234567890" 

@@ -1,0 +1,11 @@
+# Meta Marketing API Credentials
+# Set these environment variables before running the script
+
+META_APP_ID=your_app_id_here
+META_APP_SECRET=your_app_secret_here
+META_ACCESS_TOKEN=your_access_token_here
+
+# Example usage:
+# export META_APP_ID=123456789012345
+# export META_APP_SECRET=abcdef1234567890abcdef1234567890
+# export META_ACCESS_TOKEN=EAAG... 

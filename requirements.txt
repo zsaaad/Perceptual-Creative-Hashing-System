@@ -1,0 +1,17 @@
+# Core dependencies for perceptual hashing system
+imagehash==4.3.1
+pandas>=1.5.0
+Pillow>=9.0.0
+
+# Google APIs
+google-api-python-client>=2.0.0
+google-auth-oauthlib>=1.0.0
+google-auth-httplib2>=0.1.0
+google-ads>=22.0.0
+
+# Facebook/Meta Business API
+facebook-business>=17.0.0
+
+# Additional utilities
+requests>=2.28.0
+python-dotenv>=0.19.0 
