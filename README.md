@@ -8,11 +8,12 @@ This system solves the challenge of linking local creative files with their corr
 
 ## Project Structure
 
-The system consists of three separate scripts that run in sequence:
+The system consists of four separate scripts that run in sequence:
 
 1. **`fingerprint_local_folder.py`** - Scans local folder and generates perceptual hashes
-2. **`fingerprint_ad_platforms.py`** - Retrieves creatives from Meta Marketing API and generates hashes
-3. **`match_creatives.py`** - Matches local and platform hashes to link files with ad IDs (to be implemented)
+2. **`fingerprint_google_drive.py`** - Scans Google Drive folder and generates perceptual hashes
+3. **`fingerprint_ad_platforms.py`** - Retrieves creatives from Meta and Google Ads APIs and generates hashes
+4. **`match_hashes.py`** - Matches local/Drive and platform hashes to link files with ad IDs
 
 ## Installation
 
@@ -60,12 +61,49 @@ The script creates a CSV file (`local_creative_hashes.csv` by default) containin
 - `file_path`: Full path to the file
 - `file_size`: File size in bytes
 
-### Script 2: Fingerprint Meta Ad Creatives
+### Script 2: Fingerprint Google Drive Creatives
+
+Generate perceptual hashes for all images in a Google Drive folder:
+
+```bash
+python3 fingerprint_google_drive.py <google_drive_folder_id>
+```
+
+**Prerequisites:**
+1. Download `credentials.json` from Google Cloud Console (see `google_drive_setup.md`)
+2. Enable Google Drive API in your Google Cloud project
+3. Place `credentials.json` in the same directory as the script
+
+**Options:**
+- `-o, --output`: Specify output CSV filename (default: `google_drive_creative_hashes.csv`)
+- `-v, --verbose`: Enable verbose logging
+
+**Examples:**
+```bash
+# Basic usage
+python3 fingerprint_google_drive.py 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms
+
+# Custom output file
+python3 fingerprint_google_drive.py 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms -o my_drive_hashes.csv
+
+# Verbose logging
+python3 fingerprint_google_drive.py 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms -v
+```
+
+**Output:**
+The script creates a CSV file (`google_drive_creative_hashes.csv` by default) containing:
+- `filename`: Original filename
+- `phash`: Perceptual hash (64-character hexadecimal string)
+- `file_id`: Google Drive file ID
+- `file_size`: File size in bytes
+- `web_link`: Google Drive web link
+
+### Script 3: Fingerprint Meta Ad Creatives
 
 Generate perceptual hashes for all ad creatives from Meta Marketing API:
 
 ```bash
-python3 fingerprint_ad_platforms.py <ad_account_id>
+python3 fingerprint_ad_platforms.py <meta_ad_account_id> <google_customer_id>
 ```
 
 **Prerequisites:**
@@ -82,23 +120,26 @@ export META_ACCESS_TOKEN=your_access_token
 
 **Examples:**
 ```bash
-# Basic usage
-python3 fingerprint_ad_platforms.py act_123456789
+# Basic usage (Meta only)
+python3 fingerprint_ad_platforms.py act_123456789 1234567890 --meta-only
+
+# Both platforms
+python3 fingerprint_ad_platforms.py act_123456789 1234567890
 
 # Custom output file
-python3 fingerprint_ad_platforms.py act_123456789 -o my_meta_hashes.csv
+python3 fingerprint_ad_platforms.py act_123456789 1234567890 -o my_hashes.csv
 
 # Verbose logging
-python3 fingerprint_ad_platforms.py act_123456789 -v
+python3 fingerprint_ad_platforms.py act_123456789 1234567890 -v
 ```
 
 **Output:**
-The script creates a CSV file (`platform_creative_hashes_META.csv` by default) containing:
-- `ad_id`: Meta creative ID
-- `platform`: Platform name ('Meta')
+The script creates a CSV file (`platform_creative_hashes_ALL.csv` by default) containing:
+- `ad_id`: Platform creative ID
+- `platform`: Platform name ('Meta' or 'Google')
 - `phash`: Perceptual hash (64-character hexadecimal string)
-- `creative_name`: Creative name from Meta
-- `thumbnail_url`: URL of the creative thumbnail
+- `creative_name`: Creative name from platform
+- `thumbnail_url`: URL of the creative thumbnail (Meta) or asset info (Google)
 
 ## Supported Image Formats
 
