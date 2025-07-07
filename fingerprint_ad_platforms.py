@@ -183,7 +183,7 @@ def get_meta_hashes(ad_account_id: str) -> List[Dict[str, str]]:
                 'object_story_spec'
             ],
             params={
-                'limit': 1000  # Adjust based on your needs
+                'limit': 100  # Reduced from 1000 to 100 to avoid API errors
             }
         )
         
